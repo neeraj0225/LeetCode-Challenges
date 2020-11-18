@@ -1,26 +1,27 @@
+bool comparator(const vector<int> &a,const vector<int> &b)
+{
+    if(a[0] < b[0])
+        return true;
+    return false;
+}
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& A) {
         int i,j,n=A.size();
         vector<vector<int>> ans;
-        if(!n)
-            return ans;
-        sort(A.begin(),A.end());
-        ans.push_back(A[0]);
-        if(n==1)
-            return ans;
+        if(n <=1 )
+            return A;
+        sort(A.begin(),A.end(),comparator);
+        ans.push_back(A.front());
         for(i=1;i<n;i++)
         {
-            if(A[i][0] <= ans[ans.size()-1][1])
+            if(A[i][0] > ans.back()[1])
             {
-                if(A[i][1] >= ans[ans.size()-1][1])
-                {
-                    ans[ans.size()-1][1] = A[i][1];
-                }
+                ans.push_back(A[i]);
             }
             else
             {
-                ans.push_back(A[i]);
+                ans.back()[1] = max(ans.back()[1],A[i][1]);
             }
         }
         return ans;
